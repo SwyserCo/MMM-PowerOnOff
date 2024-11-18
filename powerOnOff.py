@@ -1,25 +1,40 @@
-from datetime import datetime
-from threading import Timer
 import RPi.GPIO as GPIO
+import datetime
 import time
+import sys
 
-x=datetime.today()
-y=x.replace(day=x.day+1, hour=1, minute=0, second=0, microsecond=0)
-delta_t=y-x
+# Set GPIO pin numbering mode
+GPIO.setmode(GPIO.BCM)
 
-relay=12
+# Define the GPIO pin you're using
+gpio_pin = 2
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(relay, GPIO.OUT)
+# Set the GPIO pin as output
+GPIO.setup(gpio_pin, GPIO.OUT)
 
-secs=delta_t.seconds+1
+def set_gpio_high():
+    GPIO.output(gpio_pin, GPIO.HIGH)
+    print(f"GPIO pin {gpio_pin} set to HIGH at {datetime.datetime.now()}")
 
-def toggle_relay():
-    GPIO.output(relay, GPIO.HIGH)
-    time.sleep(0.2)
-    GPIO.output(relay, GPIO.LOW)
+def set_gpio_low():
+    GPIO.output(gpio_pin, GPIO.LOW)
+    print(f"GPIO pin {gpio_pin} set to LOW at {datetime.datetime.now()}")
 
-GPIO.cleanup()
+def printit():
+    global count
+    now = datetime.datetime.now()
+    morning_time = now.replace(hour=7, minute=0, second=0, microsecond=0)
+    night_time = now.replace(hour=23, minute=0, second=0, microsecond=0)
 
-t = Timer(secs, toggle_relay)
-t.start()
+    if now >= morning_time and now < night_time:
+        set_gpio_high()
+    else:
+        set_gpio_low()
+
+    # ... (rest of the original printit function code) ...
+
+if __name__ == "__main__":
+    count = 0
+    while True:
+        printit()
+        time.sleep(60)
