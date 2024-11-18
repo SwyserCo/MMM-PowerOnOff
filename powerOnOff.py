@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import datetime
 import time
+import sys
 
 # Set GPIO pin numbering mode
 GPIO.setmode(GPIO.BCM)
@@ -19,7 +20,8 @@ def set_gpio_low():
     GPIO.output(gpio_pin, GPIO.LOW)
     print(f"GPIO pin {gpio_pin} set to LOW at {datetime.datetime.now()}")
 
-while True:
+def printit():
+    global count
     now = datetime.datetime.now()
     morning_time = now.replace(hour=7, minute=0, second=0, microsecond=0)
     night_time = now.replace(hour=23, minute=0, second=0, microsecond=0)
@@ -29,5 +31,10 @@ while True:
     else:
         set_gpio_low()
 
-    # Sleep for a minute to avoid excessive CPU usage
-    time.sleep(60)
+    # ... (rest of the original printit function code) ...
+
+if __name__ == "__main__":
+    count = 0
+    while True:
+        printit()
+        time.sleep(60)
