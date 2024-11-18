@@ -3,29 +3,32 @@ Module.register("MMM-PowerOnOff", {
 	// and replaced if the same thing is provided in config
 	defaults: {
 		command: "",
-		repetative: true,
+		repetative: false,
 		cycletime:0,
-		localfolder:false,
-		pythonName:"python",
+		localfolder:true,
+		pythonName:"python3",
 		debug:false,
-		transform: (data)=>{ return data.replace(/\n/g,"<br>")}
+		transform: (data) => { 
+			return data.replace(/\n/g, "<br>")
+		}
 	},
 
-	init: function(){
+	init: function() {
 		Log.log(this.name + " is in init!");
 	},
 
-	start: function(){
+	start: function() {
 		Log.log(this.name + " is starting!");
-		if(this.config.command == "")
+		if (this.config.command == "") {
 			this.config.command=this.file("powerOnOff.py")
+		}
 	},
 
 	// messages received from other modules and the system (NOT from your node helper)
 	// payload is a notification dependent data structure
 	notificationReceived: function(notification, payload, sender) {
 		// once everybody is loaded up
-		if(notification==="ALL_MODULES_STARTED"){
+		if (notification==="ALL_MODULES_STARTED") {
 			// send our config to our node_helper
 			let temp = this.config
 			temp.identifier = this.identifier
@@ -39,7 +42,7 @@ Module.register("MMM-PowerOnOff", {
 	socketNotificationReceived: function(notification, payload) {
 		Log.log(this.name + " received a socket notification: " + notification + " - Payload: " + payload);
 		// get to see if this message is for us
-		if(notification === "message_from_helper" && payload.identifier == this.identifier){
+		if (notification === "message_from_helper" && payload.identifier == this.identifier) {
 			this.config.message = payload.message;
 			// tell mirror runtime that our data has changed,
 			// we will be called back at getDom() to provide the updated content
@@ -65,7 +68,7 @@ Module.register("MMM-PowerOnOff", {
 		var wrapper = document.createElement("div");
 
 		// if user supplied message text in its module config, use it
-		if(this.config.hasOwnProperty("message")){
+		if (this.config.hasOwnProperty("message")) {
 			// using text from module config block in config.js
 			wrapper.innerHTML = this.config.transform(this.config.message);
 			wrapper.className += "PythonPrint"
