@@ -1,0 +1,36 @@
+{
+  "name": "MMM-PowerOnOff",
+  "version": "0.0.1",
+  "description": "MagicMirror Power On/Off module for controlling a relay",
+  "main": "MMM-PowerOnOff.js",
+  "scripts": {
+    "reset": "git reset --hard",
+    "clean": "rm -rf node_modules package-lock.json",
+    "lint": "eslint *.js --config eslint.config.js --no-warn-ignored",
+    "lint:fix": "eslint *.js --config eslint.config.js --no-warn-ignored --fix"
+  },
+  "keywords": [
+    "magic mirror",
+    "module",
+    "screen",
+    "relay control"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SwyserCo/MMM-PowerOnOff"
+  },
+  "author": "SwyserCo",
+  "license": "MIT",
+  "homepage": "https://github.com/SwyserCo/MMM-PowerOnOff",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@stylistic/eslint-plugin": "1.8.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1"
+  }
+}
